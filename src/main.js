@@ -68,6 +68,7 @@ class App {
     '83611e0c-3288-11ee-8b7f-0242ac130002-83611e70-3288-11ee-8b7f-0242ac130002',
     'f911dd92-32ee-11ee-8b7f-0242ac130002-f911de00-32ee-11ee-8b7f-0242ac130002',
     '3439e940-32f0-11ee-a26f-0242ac130002-3439e9a4-32f0-11ee-a26f-0242ac130002',
+    '1327b736-32f6-11ee-a654-0242ac130002-1327b7a4-32f6-11ee-a654-0242ac130002',
   ];
 
   map;
@@ -172,7 +173,7 @@ class App {
     this.#fetchJSON(
       targetLocation.lat,
       targetLocation.lng,
-      this.#getLastStamp(this.#getTimeStamp().at(-1)),
+      this.#getLastStamp(this.dates.at(-1)),
       this.#getFirstStamp()
     );
 
@@ -507,7 +508,7 @@ class App {
 
     fetch(url, {
       headers: {
-        Authorization: this.keys[13],
+        Authorization: this.keys[14],
       },
     })
       .then((response) => {

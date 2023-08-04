@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../dist/output.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+    />
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"
+    ></script>
+
+    <script
+      defer
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+
+    <script
+      defer
+      src="https://kit.fontawesome.com/1d41b3ab2c.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script defer src="location.js"></script>
+
+    <script defer src="main.js"></script>
+  </head>
+  <body class="bg-almostWhite">
+    <nav class="flex flex-col justify-center items-center gap-3">
+      <div class="flex flex-col justify-center items-center">
+        <img src="../assets/logo.png" alt="" class="w-4/12" />
+        <h1 class="font-typeMarck text-4xl text-terciary">Sun Rising</h1>
+      </div>
+
+      <div
+        class="slide__container w-full max-h-[25vh] flex flex-row justify-center items-center flex-wrap p-3 gap-6 overflow-y-scroll"
+      >
+        <!--
+              <button class="local__btn btn--active">Praia Grande</button>
+              <button class="local__btn">Itamambuca</button>
+              <button class="local__btn">Vermelha do Centro</button>
+              <button class="local__btn">Vermelha do Norte</button>
+              -->
+      </div>
+
+      <div class="flex flex-row justify-center items-center gap-3">
+        <h2 class="font-typePoppins text-grayDegree">Adicione um novo pico</h2>
+        <button class="newLocation__btn bg-contrast p-3 rounded-full shadow-lg">
+          <i class="fa-solid fa-map-location text-almostWhite text-3xl"></i>
+        </button>
+      </div>
+    </nav>
+    <main class="w-screen my-10">
+      <section class="w-full mb-10">
+        <div
+          class="flex flex-col justify-center items-center w-full gap-4 text-grayDegree"
+        >
+          <h2 class="font-typeMarck text-4xl text-grayDegree">Praia Grande</h2>
+          <ul
+            class="date__container flex flex-row justify-start items-center flex-nowrap w-[80%] min-h-fit font-typePoppins text-sm overflow-x-scroll gap-4 p-2"
+          >
+            <!--
+            <li class="date__btn btn--active">02/08/23</li>
+            <li class="date__btn">03/08/23</li>
+            <li class="date__btn">04/08/23</li>
+            <li class="date__btn">05/08/23</li>
+            <li class="date__btn">06/08/23</li>
+            -->
+          </ul>
+          <ul
+            class="hour__container hidden flex-row justify-start items-center flex-nowrap w-[80%] min-h-fit font-typePoppins text-sm overflow-x-scroll gap-4 p-2"
+          >
+            <li class="hour__btn btn--active" data-hour="2">05:00</li>
+            <li class="hour__btn" data-hour="5">08:00</li>
+            <li class="hour__btn" data-hour="8">11:00</li>
+            <li class="hour__btn" data-hour="11">14:00</li>
+            <li class="hour__btn" data-hour="14">17:00</li>
+            <li class="hour__btn" data-hour="17">20:00</li>
+          </ul>
+          <ul
+            class="data__container w-full hidden flex-col justify-center items-center gap-4"
+          >
+            <li class="flex flex-row justify-center items-center gap-2 w-[80%]">
+              <div class="flex flex-col justify-center items-center w-[15%]">
+                <i class="fa-solid fa-wind text-3xl"></i>
+              </div>
+              <div class="flex flex-col justify-center items-center w-[75%]">
+                <p class="w-full block">
+                  Velocidade do vento: <span id="windSpeed">50 km/h</span>
+                </p>
+                <p class="w-full block">
+                  Direção do vento:
+                  <img
+                    src="../assets/arrow.png"
+                    alt=""
+                    id="windDirection"
+                    class="inline w-[10%]"
+                  />
+                </p>
+              </div>
+            </li>
+            <li class="flex flex-row justify-center items-center gap-2 w-[80%]">
+              <div class="flex flex-col justify-center items-center w-[15%]">
+                <img src="../assets/wave.png" alt="" class="w-[80%]" />
+              </div>
+              <div class="flex flex-col justify-center items-center w-[75%]">
+                <p class="w-full block">
+                  Direção do Swell:
+                  <img
+                    src="../assets/arrow.png"
+                    alt=""
+                    id="swellDirection"
+                    class="inline w-[10%]"
+                  />
+                </p>
+                <p class="w-full block">
+                  Altura do Swell:
+                  <span id="swellHeight">2 mt's</span>
+                </p>
+                <p class="w-full block">
+                  Período do Swell: <span id="swellPeriod">13 seg.</span>
+                </p>
+              </div>
+            </li>
+            <li class="flex flex-row justify-center items-center gap-2 w-[80%]">
+              <div class="flex flex-col justify-center items-center w-[16%]">
+                <img src="../assets/wave-sun.png" alt="" class="w-full" />
+              </div>
+              <div class="flex flex-col justify-center items-center w-[75%]">
+                <p class="w-full block">
+                  Direção das ondas:
+                  <img
+                    src="../assets/arrow.png"
+                    alt=""
+                    id="waveDirection"
+                    class="inline w-[10%]"
+                  />
+                </p>
+                <p class="w-full block">
+                  Altura das ondas:
+                  <span id="waveHeight">2 mt's</span>
+                </p>
+                <p class="w-full block">
+                  Período das ondas: <span id="wavePeriod">13 seg.</span>
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section>
+        <div id="map" class="h-[40vh]"></div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -41,7 +41,7 @@
     <script defer src="main.js"></script>
   </head>
   <body class="bg-almostWhite">
-    <nav class="flex flex-col justify-center items-center gap-3">
+    <nav class="flex flex-col justify-center items-center gap-3 mt-6">
       <div class="flex flex-col justify-center items-center">
         <img src="../assets/logo.png" alt="" class="w-4/12" />
         <h1 class="font-typeMarck text-4xl text-terciary">Sun Rising</h1>
@@ -59,20 +59,32 @@
       </div>
 
       <div class="flex flex-row justify-center items-center gap-3">
-        <h2 class="font-typePoppins text-grayDegree">Adicione um novo pico</h2>
+        <h2 class="font-typePoppins text-grayDegree">Adicionar novo pico</h2>
         <button class="newLocation__btn bg-contrast p-3 rounded-full shadow-lg">
           <i class="fa-solid fa-map-location text-almostWhite text-3xl"></i>
         </button>
       </div>
     </nav>
+    <div class="hidden">
+      <div class="modal absolute z-[1000] bg-almostWhite">
+        <h4 class="font-typeMarck">Novo Pico</h4>
+      </div>
+      <div
+        class="modal__cover bg-[rgba(0,0,0,0.39)] min-h-screen z-[9999] absolute w-screen"
+      ></div>
+    </div>
     <main class="w-screen my-10">
       <section class="w-full mb-10">
         <div
           class="flex flex-col justify-center items-center w-full gap-4 text-grayDegree"
         >
+          <h3 class="local__label font-typePoppins text-xl text-grayDegree">
+            Ubatuba
+          </h3>
           <h2 class="beach__label font-typeMarck text-4xl text-grayDegree">
             Praia Grande
           </h2>
+
           <ul
             class="date__container flex flex-row justify-start items-center flex-nowrap w-[80%] min-h-fit font-typePoppins text-sm overflow-x-scroll gap-4 p-2"
           >
@@ -105,7 +117,7 @@
                 class="flex flex-col justify-start items-center w-[70%] gap-2 text-left"
               >
                 <p class="w-full block">
-                  Velocidade do vento: <span id="windSpeed">50 km/h</span>
+                  Velocidade do vento: <span id="windSpeed">50 </span> mt/s
                 </p>
                 <p class="w-full block">
                   Direção do vento:
@@ -138,10 +150,10 @@
                 </p>
                 <p class="w-full block">
                   Altura do Swell:
-                  <span id="swellHeight">2 mt's</span>
+                  <span id="swellHeight">2 </span> mt's
                 </p>
                 <p class="w-full block">
-                  Período do Swell: <span id="swellPeriod">13 seg.</span>
+                  Período do Swell: <span id="swellPeriod">13 </span> seg.
                 </p>
               </div>
             </li>
@@ -165,10 +177,10 @@
                 </p>
                 <p class="w-full block">
                   Altura das ondas:
-                  <span id="waveHeight">2 mt's</span>
+                  <span id="waveHeight">2 </span> mt's
                 </p>
                 <p class="w-full block">
-                  Período das ondas: <span id="wavePeriod">13 seg.</span>
+                  Período das ondas: <span id="wavePeriod">13 </span> seg.
                 </p>
               </div>
             </li>

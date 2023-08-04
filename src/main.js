@@ -22,6 +22,7 @@ const dataContainer = document.querySelector('.data__container');
 const containers = [hourContainer, dataContainer];
 
 const beachLabel = document.querySelector('.beach__label');
+const localLabel = document.querySelector('.local__label');
 
 class App {
   params =
@@ -48,6 +49,8 @@ class App {
     '6b975d70-3280-11ee-8d52-0242ac130002-6b975e38-3280-11ee-8d52-0242ac130002',
     'b2899ba6-3282-11ee-86b2-0242ac130002-b2899c14-3282-11ee-86b2-0242ac130002',
     'ca13de20-3283-11ee-92e6-0242ac130002-ca13de84-3283-11ee-92e6-0242ac130002',
+    'd5c0a364-3285-11ee-8d52-0242ac130002-d5c0a3be-3285-11ee-8d52-0242ac130002',
+    '83611e0c-3288-11ee-8b7f-0242ac130002-83611e70-3288-11ee-8b7f-0242ac130002',
   ];
 
   map;
@@ -56,7 +59,11 @@ class App {
     //First Locations
     this.#getFirstLocations();
 
-    this.#showMap(this.locations[0].lat, this.locations[0].lng);
+    this.#showMap(
+      this.locations[0].lat,
+      this.locations[0].lng,
+      this.locations[0].beach
+    );
 
     //Render First Locations
     this.#renderLocalBtn(this.locations);
@@ -88,6 +95,8 @@ class App {
       return local.id == targetID;
     });
 
+    this.#showMap(targetLocation.lat, targetLocation.lng, targetLocation.beach);
+
     this.#fetchJSON(
       targetLocation.lat,
       targetLocation.lng,
@@ -96,6 +105,7 @@ class App {
     );
 
     beachLabel.textContent = targetLocation.beach;
+    localLabel.textContent = targetLocation.local;
 
     const dateTarget = this.dates[0].setHours(2);
 
@@ -317,26 +327,42 @@ class App {
     return Date.now().toString(36) + Math.random().toString(36).slice(2);
   }
 
-  #showMap(lat, lng) {
-    this.map = L.map('map').setView([lat, lng], 14);
+  #showMap(lat, lng, description = '') {
+    if (!this.map) {
+      this.map = L.map('map').setView([lat, lng], 14);
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '© OpenStreetMap',
-    }).addTo(this.map);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap',
+      }).addTo(this.map);
 
-    this.#addMarkerMap(lat, lng, 'oi');
+      this.#addMarkerMap(lat, lng, 'oi');
+    }
+
+    this.map.setView([lat, lng], 15, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
+
+    this.#addMarkerMap(lat, lng, description);
   }
 
   #addMarkerMap(lat, lng, description) {
-    const popup = L.popup([lat, lng], {
-      content: `${description}`,
-      maxWidth: 250,
-      minWidth: 100,
-      autoClose: false,
-      closeOnClick: false,
-      className: 'popup',
-    }).openOn(this.map);
+    L.marker([lat, lng])
+      .addTo(this.map)
+      .bindPopup(
+        L.popup({
+          maxWidth: 250,
+          minWidth: 100,
+          autoClose: false,
+          closeOnClick: false,
+          className: `running-popup`,
+        })
+      )
+      .setPopupContent(description)
+      .openPopup();
   }
 
   #buildURL(lat, lng, params, end, start) {
@@ -361,7 +387,7 @@ class App {
 
     fetch(url, {
       headers: {
-        Authorization: this.keys[9],
+        Authorization: this.keys[11],
       },
     })
       .then((response) => {
@@ -389,5 +415,3 @@ class App {
 }
 
 const app = new App();
-
-document.querySelector('.newLocation__btn').addEventListener('click', () => {});

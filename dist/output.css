@@ -536,6 +536,26 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.absolute{
+  position: absolute;
+}
+
+.z-50{
+  z-index: 50;
+}
+
+.z-30{
+  z-index: 30;
+}
+
+.z-\[9999\]{
+  z-index: 9999;
+}
+
+.z-\[1000\]{
+  z-index: 1000;
+}
+
 .my-10{
   margin-top: 2.5rem;
   margin-bottom: 2.5rem;
@@ -547,6 +567,14 @@ video {
 
 .ml-2{
   margin-left: 0.5rem;
+}
+
+.mt-3{
+  margin-top: 0.75rem;
+}
+
+.mt-6{
+  margin-top: 1.5rem;
 }
 
 .block{
@@ -578,24 +606,32 @@ video {
   min-height: fit-content;
 }
 
+.min-h-screen{
+  min-height: 100vh;
+}
+
 .w-4\/12{
   width: 33.333333%;
 }
 
-.w-\[10\%\]{
-  width: 10%;
+.w-\[11\%\]{
+  width: 11%;
 }
 
-.w-\[15\%\]{
-  width: 15%;
+.w-\[30\%\]{
+  width: 30%;
 }
 
-.w-\[16\%\]{
-  width: 16%;
+.w-\[50\%\]{
+  width: 50%;
 }
 
-.w-\[75\%\]{
-  width: 75%;
+.w-\[65\%\]{
+  width: 65%;
+}
+
+.w-\[70\%\]{
+  width: 70%;
 }
 
 .w-\[80\%\]{
@@ -608,55 +644,6 @@ video {
 
 .w-screen{
   width: 100vw;
-}
-
-.w-\[12\%\]{
-  width: 12%;
-}
-
-.w-\[11\%\]{
-  width: 11%;
-}
-
-.w-\[30\%\]{
-  width: 30%;
-}
-
-.w-\[70\%\]{
-  width: 70%;
-}
-
-.w-1\/2{
-  width: 50%;
-}
-
-.w-\[50\%\]{
-  width: 50%;
-}
-
-.w-\[65\%\]{
-  width: 65%;
-}
-
-.rotate-\[\$\{String\(Math\.trunc\(Number\(dataTarget\[e\.id\]\.icon\)\)\)\}deg\]{
-  --tw-rotate: ${String(Math.trunc(Number(dataTarget[e.id].icon)))}deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.rotate-\[240deg\]{
-  --tw-rotate: 240deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.rotate-\[\$\{deg\}deg\]{
-  --tw-rotate: ${deg}deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-105{
-  --tw-scale-x: 1.05;
-  --tw-scale-y: 1.05;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .transform{
@@ -729,6 +716,40 @@ video {
   background-color: rgb(219 151 53 / var(--tw-bg-opacity));
 }
 
+.bg-grayDegree{
+  --tw-bg-opacity: 1;
+  background-color: rgb(73 80 87 / var(--tw-bg-opacity));
+}
+
+.bg-\[rgba\(0\2c 0\2c 0\2c 30\)\]{
+  background-color: rgba(0,0,0,30);
+}
+
+.bg-\[rgba\(0\2c 0\2c 0\2c 70\)\]{
+  background-color: rgba(0,0,0,70);
+}
+
+.bg-black{
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
+.bg-\[rgba\(0\2c 0\2c 0\2c 40\)\]{
+  background-color: rgba(0,0,0,40);
+}
+
+.bg-\[rgba\(0\2c 0\2c 0\2c 20\)\]{
+  background-color: rgba(0,0,0,20);
+}
+
+.bg-\[rgba\(0\2c 0\2c 0\2c 0\.3\)\]{
+  background-color: rgba(0,0,0,0.3);
+}
+
+.bg-\[rgba\(0\2c 0\2c 0\2c 0\.39\)\]{
+  background-color: rgba(0,0,0,0.39);
+}
+
 .p-2{
   padding: 0.5rem;
 }
@@ -739,10 +760,6 @@ video {
 
 .text-left{
   text-align: left;
-}
-
-.text-center{
-  text-align: center;
 }
 
 .font-typeMarck{
@@ -766,6 +783,16 @@ video {
 .text-sm{
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+
+.text-2xl{
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.text-xl{
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 
 .text-almostWhite{
@@ -841,24 +868,20 @@ video {
 }
 
 .leaflet-popup .leaflet-popup-content-wrapper {
-  background-color: var(--color-dark--1);
-  color: var(--color-light--2);
+  background-color: #2d3439;
+  color: #ececec;
   border-radius: 5px;
   padding-right: 0.6rem;
 }
 
 .leaflet-popup .leaflet-popup-content {
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 .leaflet-popup .leaflet-popup-tip {
-  background-color: var(--color-dark--1);
+  background-color: #2d3439;
 }
 
 .running-popup .leaflet-popup-content-wrapper {
-  border-left: 5px solid var(--color-brand--2);
-}
-
-.cycling-popup .leaflet-popup-content-wrapper {
-  border-left: 5px solid var(--color-brand--1);
+  border-left: 5px solid #1f74ac;
 }

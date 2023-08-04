@@ -13,19 +13,17 @@ const wavePeriod = document.querySelector('#wavePeriod');
 
 const textsData = [windSpeed, swellHeight, swellPeriod, waveHeight, wavePeriod];
 
+const imgDirections = [windDirection, swellDirection, waveDirection];
+
+const slideContainer = [...document.querySelectorAll('.slide__container')];
 const dateContainer = document.querySelector('.date__container');
 const hourContainer = document.querySelector('.hour__container');
 const dataContainer = document.querySelector('.data__container');
 const containers = [hourContainer, dataContainer];
 
-class App {
-  ubatuba = {
-    praiaGrande: {
-      lat: -23.46762694750624,
-      lng: -45.06052141083771,
-    },
-  };
+const beachLabel = document.querySelector('.beach__label');
 
+class App {
   params =
     'swellDirection,swellHeight,swellPeriod,waveDirection,waveHeight,wavePeriod,windDirection,windSpeed';
 
@@ -44,18 +42,27 @@ class App {
     'aa9b916c-3253-11ee-a26f-0242ac130002-aa9b9220-3253-11ee-a26f-0242ac130002',
     '82dac57c-3266-11ee-8d52-0242ac130002-82dac626-3266-11ee-8d52-0242ac130002',
     'eb67d818-3276-11ee-8b7f-0242ac130002-eb67d8c2-3276-11ee-8b7f-0242ac130002',
+    '53dc0b50-327a-11ee-a26f-0242ac130002-53dc0bb4-327a-11ee-a26f-0242ac130002',
+    '0f6350ee-327c-11ee-8d52-0242ac130002-0f6351a2-327c-11ee-8d52-0242ac130002',
+    'b0d00b46-327e-11ee-8b7f-0242ac130002-b0d00bb4-327e-11ee-8b7f-0242ac130002',
+    '6b975d70-3280-11ee-8d52-0242ac130002-6b975e38-3280-11ee-8d52-0242ac130002',
+    'b2899ba6-3282-11ee-86b2-0242ac130002-b2899c14-3282-11ee-86b2-0242ac130002',
+    'ca13de20-3283-11ee-92e6-0242ac130002-ca13de84-3283-11ee-92e6-0242ac130002',
   ];
 
   map;
 
   constructor() {
-    this.#showMap(this.ubatuba.praiaGrande.lat, this.ubatuba.praiaGrande.lng);
-
     //First Locations
     this.#getFirstLocations();
 
+    this.#showMap(this.locations[0].lat, this.locations[0].lng);
+
     //Render First Locations
     this.#renderLocalBtn(this.locations);
+
+    //Add Event Listeners to Locations Btns
+    slideContainer[0].addEventListener('click', this.#changePlace.bind(this));
 
     //Getting Time Stamp
     const dateStamps = this.#getTimeStamp();
@@ -63,11 +70,46 @@ class App {
     //Fetching the JSON
 
     this.#fetchJSON(
-      'ubatuba',
-      'praiaGrande',
+      this.locations[0].lat,
+      this.locations[0].lng,
       this.#getLastStamp(dateStamps.at(-1)),
       this.#getFirstStamp()
     );
+  }
+
+  #changePlace(e) {
+    if (!e.target.classList.contains('local__btn')) return;
+
+    this.#toggleActiveLocation(e.target);
+
+    const targetID = e.target.dataset.id;
+
+    const targetLocation = this.locations.find((local) => {
+      return local.id == targetID;
+    });
+
+    this.#fetchJSON(
+      targetLocation.lat,
+      targetLocation.lng,
+      this.#getLastStamp(this.#getTimeStamp().at(-1)),
+      this.#getFirstStamp()
+    );
+
+    beachLabel.textContent = targetLocation.beach;
+
+    const dateTarget = this.dates[0].setHours(2);
+
+    const dataTarget = this.filteredData.find((el) => {
+      if (!el) return;
+      return Number(new Date(el.time)) == dateTarget;
+    });
+
+    this.currentData = dataTarget;
+
+    this.#renderData(dataTarget);
+    this.#toggleActiveDate(document.querySelector('.date__btn'));
+
+    this.#selectHour(dataTarget, document.querySelector('.hour__btn'));
   }
 
   #selectDate(e) {
@@ -78,7 +120,6 @@ class App {
 
     const dateTarget = new Date(Number(e.target.dataset.id));
     const fiveStamp = dateTarget.setHours(2);
-    console.log(fiveStamp);
 
     const dataTarget = this.filteredData.find((el) => {
       if (!el) return;
@@ -88,6 +129,13 @@ class App {
     this.currentData = dataTarget;
 
     this.#renderData(dataTarget);
+  }
+
+  #toggleActiveLocation(target) {
+    const localBtns = document.querySelectorAll('.local__btn');
+
+    localBtns.forEach((e) => e.classList.remove('btn--active'));
+    target.classList.add('btn--active');
   }
 
   #toggleActiveDate(target) {
@@ -120,11 +168,8 @@ class App {
       return Number(dateStamp) == completeDate;
     });
 
-    console.log(data);
-
     this.#renderData(data);
     this.currentData = data;
-    console.log(completeDate);
   }
 
   #getFirstLocations() {
@@ -191,13 +236,9 @@ class App {
       dateContainer.insertAdjacentHTML('beforeend', html);
     });
 
-    console.log(now);
-    console.log(future);
-
     this.dates = future;
 
     const futureStamp = future.map((e) => Number(e));
-    console.log(futureStamp);
 
     return futureStamp;
   }
@@ -244,8 +285,6 @@ class App {
   }
 
   #renderLocalBtn(locationsArr) {
-    const slideContainer = [...document.querySelectorAll('.slide__container')];
-
     locationsArr.forEach((el, i) => {
       const html = `
       <button class="local__btn ${i === 0 ? 'btn--active' : ''}" data-id='${
@@ -263,10 +302,14 @@ class App {
       e.classList.add('flex');
     });
 
-    console.log(dataTarget);
-
     textsData.forEach((e) => {
       e.textContent = dataTarget[e.id].icon;
+    });
+
+    imgDirections.forEach((e) => {
+      const deg = Math.trunc(Number(dataTarget[e.id].icon));
+      e.style.transform = `rotate(${deg}deg)`;
+      e.src = '../assets/arrow.png';
     });
   }
 
@@ -301,26 +344,24 @@ class App {
   }
 
   #fetchJSON(
-    local,
-    beach,
+    lat,
+    lng,
     endTimeStamp,
     startStamp,
     errorMsg = 'Something went wrong'
   ) {
     const url = this.#buildURL(
-      this.locations[0].lat,
-      this.locations[0].lng,
+      lat,
+      lng,
 
       this.params,
       endTimeStamp,
       startStamp
     );
 
-    console.log(url);
-
     fetch(url, {
       headers: {
-        Authorization: this.keys[3],
+        Authorization: this.keys[9],
       },
     })
       .then((response) => {

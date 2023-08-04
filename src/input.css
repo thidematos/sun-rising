@@ -42,3 +42,19 @@
 .running-popup .leaflet-popup-content-wrapper {
   border-left: 5px solid #1f74ac;
 }
+
+.modal {
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
+
+.input {
+  @apply shadow-md placeholder:bg-almostWhite
+font-typePoppins placeholder:font-typePoppins p-2 text-sm;
+}
+
+.label {
+  @apply flex flex-col justify-center items-start gap-1 text-grayDegree;
+}

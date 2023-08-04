@@ -40,8 +40,45 @@
 
     <script defer src="main.js"></script>
   </head>
-  <body class="bg-almostWhite">
-    <nav class="flex flex-col justify-center items-center gap-3 mt-6">
+  <body class="bg-almostWhite mb-10">
+    <div
+      class="modal hidden absolute z-[9999] bg-almostWhite min-h-[20rem] w-[80vw] rounded-md p-6 flex-col justify-start items-center gap-4"
+    >
+      <h4 class="font-typePoppins text-2xl text-primary drop-shadow-md">
+        Novo Pico
+      </h4>
+      <div
+        class="input__container flex flex-col justify-center items-center gap-3"
+      >
+        <div class="label">
+          <label class="text-base" for="inputLocal">Cidade</label>
+          <input class="input" type="text" id="inputLocal" />
+        </div>
+        <div class="label">
+          <label class="text-base" for="inputBeach">Praia</label>
+          <input class="input" type="text" id="inputBeach" />
+        </div>
+        <div class="label">
+          <label class="text-base" for="inputLat">Latitude</label>
+          <input class="input" type="text" id="inputLat" />
+        </div>
+        <div class="label">
+          <label class="text-base" for="inputLng">Longitude</label>
+          <input class="input" type="text" id="inputLng" />
+        </div>
+
+        <p class="text-center text-grayDegree text-sm">
+          Clique no mapa para verificar as coordenadas de seu pico favorito!
+        </p>
+      </div>
+      <button class="newObj__btn bg-contrast p-3 rounded-full shadow-lg">
+        <i class="fa-solid fa-map-location text-almostWhite text-4xl"></i>
+      </button>
+    </div>
+    <div
+      class="modal__cover bg-[rgba(0,0,0,0.39)] z-[9998] absolute w-screen"
+    ></div>
+    <nav class="flex flex-col justify-center items-center gap-3 pt-6">
       <div class="flex flex-col justify-center items-center">
         <img src="../assets/logo.png" alt="" class="w-4/12" />
         <h1 class="font-typeMarck text-4xl text-terciary">Sun Rising</h1>
@@ -65,15 +102,8 @@
         </button>
       </div>
     </nav>
-    <div class="hidden">
-      <div class="modal absolute z-[1000] bg-almostWhite">
-        <h4 class="font-typeMarck">Novo Pico</h4>
-      </div>
-      <div
-        class="modal__cover bg-[rgba(0,0,0,0.39)] min-h-screen z-[9999] absolute w-screen"
-      ></div>
-    </div>
-    <main class="w-screen my-10">
+
+    <main class="w-screen mt-10">
       <section class="w-full mb-10">
         <div
           class="flex flex-col justify-center items-center w-full gap-4 text-grayDegree"
@@ -189,6 +219,17 @@
       </section>
       <section>
         <div id="map" class="h-[40vh]"></div>
+        <div
+          class="clip__modal absolute z-[9998] left-[10%] top-[112%] w-[80vw] bg-secondary text-center flex-col justify-center items-center rounded-lg shadow-lg duration-200 text-almostWhite"
+          style="opacity: 0"
+        >
+          <p class="">
+            Latitude:<span id="latSpan"></span> Longitude:<span
+              id="lngSpan"
+            ></span>
+          </p>
+          <p class="">Copiado!</p>
+        </div>
       </section>
     </main>
   </body>

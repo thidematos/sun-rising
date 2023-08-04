@@ -24,6 +24,21 @@ const containers = [hourContainer, dataContainer];
 const beachLabel = document.querySelector('.beach__label');
 const localLabel = document.querySelector('.local__label');
 
+const modal = document.querySelector('.modal');
+const modalCover = document.querySelector('.modal__cover');
+const newLocationBtn = document.querySelector('.newLocation__btn');
+
+const inputLocal = document.querySelector('#inputLocal');
+const inputBeach = document.querySelector('#inputBeach');
+const inputLat = document.querySelector('#inputLat');
+const inputLng = document.querySelector('#inputLng');
+
+const clipModal = document.querySelector('.clip__modal');
+const latSpan = document.querySelector('#latSpan');
+const lngSpan = document.querySelector('#lngSpan');
+
+const newObjBtn = document.querySelector('.newObj__btn');
+
 class App {
   params =
     'swellDirection,swellHeight,swellPeriod,waveDirection,waveHeight,wavePeriod,windDirection,windSpeed';
@@ -51,6 +66,8 @@ class App {
     'ca13de20-3283-11ee-92e6-0242ac130002-ca13de84-3283-11ee-92e6-0242ac130002',
     'd5c0a364-3285-11ee-8d52-0242ac130002-d5c0a3be-3285-11ee-8d52-0242ac130002',
     '83611e0c-3288-11ee-8b7f-0242ac130002-83611e70-3288-11ee-8b7f-0242ac130002',
+    'f911dd92-32ee-11ee-8b7f-0242ac130002-f911de00-32ee-11ee-8b7f-0242ac130002',
+    '3439e940-32f0-11ee-a26f-0242ac130002-3439e9a4-32f0-11ee-a26f-0242ac130002',
   ];
 
   map;
@@ -82,6 +99,61 @@ class App {
       this.#getLastStamp(dateStamps.at(-1)),
       this.#getFirstStamp()
     );
+
+    //Adding Event Listener to create new Location
+    newLocationBtn.addEventListener('click', this.#showModal.bind(this));
+    modalCover.addEventListener('click', () => {
+      this.#toggleModal(false);
+    });
+
+    //Adding Event Listener to create new Object Location
+    newObjBtn.addEventListener('click', this.#createNewObj.bind(this));
+  }
+
+  #createNewObj() {
+    const local = inputLocal.value;
+    const beach = inputBeach.value;
+    const lat = Number(inputLat.value);
+    const lng = Number(inputLng.value);
+
+    const status = this.#checkDataValidity(lat, lng);
+
+    if (!local || !beach || !lat || !lng) {
+      inputLocal.value =
+        inputBeach.value =
+        inputLat.value =
+        inputLng.value =
+          '';
+      inputLocal.placeholder = 'Insira um local válido!';
+      inputBeach.placeholder = 'Insira uma praia válida!';
+      inputLat.placeholder = 'Insira uma latitude válida!';
+      inputLng.placeholder = 'Insira uma longitude válida!';
+    }
+
+    if (!status) {
+      inputLat.value = inputLng.value = '';
+      inputLat.placeholder = 'Insira uma latitude válida!';
+      inputLng.placeholder = 'Insira uma longitude válida!';
+    }
+
+    const newLocation = new Location(
+      local,
+      beach,
+      lat,
+      lng,
+      this.#generateID()
+    );
+    newLocation.pushToArray(this.locations);
+
+    this.#renderLocalBtn([this.locations.at(-1)]);
+    this.#toggleActiveLocation(document.querySelector('.local__btn'));
+    this.#toggleModal(false);
+    this.#renderData();
+
+    containers.forEach((e) => {
+      e.classList.add('hidden');
+      e.classList.remove('flex');
+    });
   }
 
   #changePlace(e) {
@@ -336,7 +408,7 @@ class App {
         attribution: '© OpenStreetMap',
       }).addTo(this.map);
 
-      this.#addMarkerMap(lat, lng, 'oi');
+      this.#getCoordsMap();
     }
 
     this.map.setView([lat, lng], 15, {
@@ -347,6 +419,27 @@ class App {
     });
 
     this.#addMarkerMap(lat, lng, description);
+  }
+
+  #getCoordsMap() {
+    this.map.on('click', (e) => {
+      const { lat, lng } = e.latlng;
+
+      this.#showClipWarn(lat, lng);
+    });
+  }
+
+  #showClipWarn(lat, lng) {
+    clipModal.style.opacity = 100;
+
+    latSpan.textContent = lat;
+    lngSpan.textContent = lng;
+
+    navigator.clipboard.writeText(`${lat}  ${lng}`);
+
+    setTimeout(() => {
+      clipModal.style.opacity = 0;
+    }, 700);
   }
 
   #addMarkerMap(lat, lng, description) {
@@ -365,8 +458,35 @@ class App {
       .openPopup();
   }
 
+  #checkDataValidity(lat, lng) {
+    const allNumbers = (...inputs) =>
+      inputs.every((inp) => Number.isFinite(inp));
+
+    let status = true;
+
+    if (!allNumbers(lat, lng)) status = false;
+
+    return status;
+  }
+
   #buildURL(lat, lng, params, end, start) {
     return `https://api.stormglass.io/v2/weather/point?lat=${lat}&lng=${lng}&params=${params}&start=${start}&end=${end}`;
+  }
+
+  #toggleModal(status) {
+    modal.classList[status ? 'remove' : 'add']('hidden');
+    modal.classList[status ? 'add' : 'remove']('flex');
+    modalCover.classList[status ? 'remove' : 'add']('hidden');
+  }
+
+  #showModal(e) {
+    this.#toggleModal(true);
+
+    const bodyStyle = getComputedStyle(document.querySelector('body'));
+    modalCover.style.height =
+      Number.parseInt(bodyStyle.height) +
+      Number.parseInt(bodyStyle.marginBottom) +
+      'px';
   }
 
   #fetchJSON(
@@ -387,7 +507,7 @@ class App {
 
     fetch(url, {
       headers: {
-        Authorization: this.keys[11],
+        Authorization: this.keys[13],
       },
     })
       .then((response) => {

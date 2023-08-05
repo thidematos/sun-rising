@@ -69,6 +69,7 @@ class App {
     'f911dd92-32ee-11ee-8b7f-0242ac130002-f911de00-32ee-11ee-8b7f-0242ac130002',
     '3439e940-32f0-11ee-a26f-0242ac130002-3439e9a4-32f0-11ee-a26f-0242ac130002',
     '1327b736-32f6-11ee-a654-0242ac130002-1327b7a4-32f6-11ee-a654-0242ac130002',
+    'cc96a85c-3338-11ee-8b7f-0242ac130002-cc96a8ca-3338-11ee-8b7f-0242ac130002',
   ];
 
   map;
@@ -508,7 +509,7 @@ class App {
 
     fetch(url, {
       headers: {
-        Authorization: this.keys[14],
+        Authorization: this.keys[15],
       },
     })
       .then((response) => {
